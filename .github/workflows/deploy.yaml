@@ -56,11 +56,7 @@ jobs:
 
           # Forcer un push si nécessaire en cas de conflits
           git push origin state || (git pull --rebase origin state && git push origin state)
-
-      - name: Refresh Terraform state
-        run: terraform refresh
-        working-directory: terraform
-
+      
       - name: Get API URL
         run: echo "API URL $(terraform output api_url)"
         working-directory: terraform
