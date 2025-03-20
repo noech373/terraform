@@ -32,7 +32,7 @@ jobs:
           zip -r ../lambda.zip .
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: TF_LOG=DEBUG terraform apply -auto-approve
         working-directory: terraform
 
       - name: Get API URL
