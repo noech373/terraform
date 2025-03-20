@@ -35,6 +35,16 @@ jobs:
         run: TF_LOG=DEBUG terraform apply -auto-approve
         working-directory: terraform
 
+      - name: Commit Terraform state
+        run: |
+          git config --global user.email "noehoussein@gmail.com"
+          git config --global user.name "noehoussein"
+          git checkout -b state || git checkout state
+          mv terraform/terraform.tfstate terraform/state/
+          git add terraform/state/terraform.tfstate
+          git commit -m "Update Terraform state"
+          git push origin state
+
       - name: Get API URL
         run: echo "API URL $(terraform output api_url)"
         working-directory: terraform

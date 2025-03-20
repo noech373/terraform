@@ -1,7 +1,11 @@
 provider "aws" {
   region = "eu-west-3"
 } 
-
+terraform {
+  backend "local" {
+    path = "./terraform.tfstate"
+  }
+}
 resource "aws_iam_role" "lambda_exec" {
   name = "lambda_execution_role"
 

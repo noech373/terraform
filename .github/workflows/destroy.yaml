@@ -22,6 +22,12 @@ jobs:
           cd lambda
           zip -r ../lambda.zip .
 
+      - name: Retrieve Terraform state
+        run: |
+          git fetch origin state
+          git checkout state
+          mv terraform/state/terraform.tfstate terraform/
+
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
         working-directory: terraform
