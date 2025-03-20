@@ -40,6 +40,7 @@ jobs:
           git config --global user.email "noehoussein@gmail.com"
           git config --global user.name "noehoussein"
           git checkout -b state || git checkout state
+          mkdir -p terraform/state
           mv terraform/terraform.tfstate terraform/state/
           git add terraform/state/terraform.tfstate
           git commit -m "Update Terraform state"
