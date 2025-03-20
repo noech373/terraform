@@ -61,6 +61,14 @@ resource "aws_apigatewayv2_route" "lambda_route" {
   target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
+resource "aws_lambda_permission" "apigw_lambda" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.my_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
+}
+
 output "api_url" {
   value = "${aws_apigatewayv2_api.http_api.api_endpoint}/time"
 }
