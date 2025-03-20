@@ -7,7 +7,7 @@ exports.handler = async () => {
         body: JSON.stringify({
             message: "Heure actuelle à Paris et auteur",
             time: currentTime,
-            author: "ChatGPT",
+            author: "Houssein et Noé",
         }),
     };
 };

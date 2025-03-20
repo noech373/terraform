@@ -35,7 +35,7 @@ resource "aws_lambda_function" "my_lambda" {
 }
 
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "ParisTimeAPI"
+  name          = "ParisTimeHousseinNoeAPI"
   protocol_type = "HTTP"
 }
 
