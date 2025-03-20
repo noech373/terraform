@@ -2,20 +2,21 @@ provider "aws" {
   region = "eu-west-3"
 }
 
-resource "aws_iam_role" "lambda_exec" {
+data "aws_iam_role" "existing_lambda_exec" {
   name = "lambda_execution_role"
+}
 
+resource "aws_iam_role" "lambda_exec" {
+  count = length(data.aws_iam_role.existing_lambda_exec.id) > 0 ? 0 : 1
+
+  name = "lambda_execution_role"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "lambda.amazonaws.com"
-        }
-      }
-    ]
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = { Service = "lambda.amazonaws.com" },
+      Action = "sts:AssumeRole"
+    }]
   })
 }
 
