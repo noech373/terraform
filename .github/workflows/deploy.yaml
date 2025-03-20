@@ -39,14 +39,23 @@ jobs:
 
       - name: Commit Terraform state
         run: |
-          git config --global user.email "noehoussein@gmail.com"
-          git config --global user.name "noehoussein"
-          git checkout -b state || git checkout state
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          
+          # Récupérer toutes les branches
+          git fetch origin state || git branch state
+          git checkout state || git checkout -b state
+          
+          # Mettre à jour localement la branche state pour éviter les conflits
+          git pull --rebase origin state || echo "No remote changes"
+
           mkdir -p terraform/state
-          mv terraform/terraform.tfstate terraform/state/
+          mv terraform/terraform.tfstate terraform/state/terraform.tfstate
           git add terraform/state/terraform.tfstate
-          git commit -m "Update Terraform state"
-          git push origin state
+          git commit -m "Update Terraform state" || echo "No changes to commit"
+
+          # Forcer un push si nécessaire en cas de conflits
+          git push origin state || (git pull --rebase origin state && git push origin state)
 
       - name: Get API URL
         run: echo "API URL $(terraform output api_url)"
