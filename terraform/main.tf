@@ -22,7 +22,7 @@ resource "aws_iam_role" "lambda_exec" {
 
 resource "aws_iam_policy_attachment" "lambda_basic_execution" {
   name       = "lambda_basic_execution"
-  roles      = [aws_iam_role.lambda_exec.name]
+  roles      = [aws_iam_role.lambda_exec[0].name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }  
 
@@ -30,7 +30,7 @@ resource "aws_lambda_function" "my_lambda" {
   filename         = "../lambda.zip"  
   source_code_hash = filebase64sha256("../lambda.zip")
   function_name    = "myLambdaFunction"
-  role            = aws_iam_role.lambda_exec.arn
+  role            = aws_iam_role.lambda_exec[0].arn
   handler         = "index.handler"
   runtime         = "nodejs18.x"
 }
