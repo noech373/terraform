@@ -18,6 +18,11 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: terraform
+      
+      - name: Zip Lambda function
+        run: |
+          cd lambda
+          zip -r ../lambda.zip .
 
       - name: Terraform Apply
         run: terraform apply -auto-approve

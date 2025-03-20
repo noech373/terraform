@@ -18,20 +18,12 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_lambda_function" "my_lambda" {
-  function_name = "ParisTimeLambda"
-  role          = aws_iam_role.lambda_role.arn
-  runtime       = "nodejs18.x"
-  handler       = "index.handler"
-
-  filename = "lambda.zip"
-
-  source_code_hash = filebase64sha256("lambda.zip")
-
-  environment {
-    variables = {
-      TIMEZONE = "Europe/Paris"
-    }
-  }
+  filename         = "../lambda.zip"  
+  source_code_hash = filebase64sha256("../lambda.zip")
+  function_name    = "myLambdaFunction"
+  role            = aws_iam_role.lambda_exec.arn
+  handler         = "index.handler"
+  runtime         = "nodejs18.x"
 }
 
 resource "aws_apigatewayv2_api" "http_api" {
